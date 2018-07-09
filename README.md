@@ -1,6 +1,6 @@
 # TwitterBaby
 This is the course project for CEN5035, which aims to create a simple version of Twitter.
-In this project we will create a web application with basic Twitter function including: login, signup, timeline, follow, unfollow, tweet, deelete tweets, edit user profile, notifications, comments....
+In this project we will create a web application with basic Twitter function including: login, signup, timeline, follow, unfollow, tweet, delete tweets, edit user profile, notifications, comments.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
