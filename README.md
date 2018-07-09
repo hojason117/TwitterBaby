@@ -1,18 +1,9 @@
 # TwitterBaby
-> This is the course project for CEN5035 aim to create a simple version of twitter. 
-> This project will create a web application with basic twitter function including: 
-  Login, Signup, Show tweets in the home wepage, Follow, Unfollow, Post Tweet, Delete Tweet, Edit User Profile, Notification, Comments....
+This is the course project for CEN5035, which aims to create a simple version of Twitter.
+In this project we will create a web application with basic Twitter function including: login, signup, timeline, follow, unfollow, tweet, deelete tweets, edit user profile, notifications, comments....
 
 ## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-## Prerequisites
-
-What things you need to install the software and how to install them
-
-Give examples
-Installing
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ## How to use
 ### Serve website
@@ -27,17 +18,14 @@ Run ```ng e2e``` under frontend folder.
 Run ```npm run compodoc``` under frontend folder. Documentation served at 8080 port.
 
 ## Built With
-
 * Angular 2 - The web framework used
 * Echo - Go web framework
 * MongoDB - Database used
 
 ## Version
-
 1.0
 
 ## Authors
-
 - Jason Chia-Hsien Ho
 - Chih-Yin Lee
 - Jason He (Xing He)
