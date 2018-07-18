@@ -9,7 +9,7 @@ import 'rxjs/add/operator/toPromise';
 export class DataService {
   localhost = "http://localhost:1323";
   private timelineSource = new BehaviorSubject<object>([]);
-  private backEndHostUrl: String = "http://127.0.0.1:1323/api/v1";
+  private backEndHostUrl: String = "http://ec2-18-217-141-58.us-east-2.compute.amazonaws.com:1323";
   constructor(private http: Http) { }
 
   // Create the header for http request
@@ -24,7 +24,7 @@ export class DataService {
   // Get the tweetlist. This method will be changed to return Observable
   getTweetList(id: string): Promise<object> {
     let options: RequestOptions = this.getHeader();
-    return this.http.get(this.localhost +`/api/v1/tweetlist/${id}?perpage=100&page=1`, options)
+      return this.http.get(this.backEndHostUrl +`/api/v1/tweetlist/${id}?perpage=100&page=1`, options)
                       .toPromise()
                       .then((res: Response) => res.json())
                       .catch(this.handleError);
@@ -33,7 +33,7 @@ export class DataService {
   getTweetListTimeLine(id: string, page: number): Observable<object> {
     let options: RequestOptions = this.getHeader();
     this.timelineSource.next([]);
-    this.http.get(this.localhost +`/api/v1/tweettimeline/${id}?perpage=15&page=${page}`, options)
+      this.http.get(this.backEndHostUrl +`/api/v1/tweettimeline/${id}?perpage=15&page=${page}`, options)
                       .toPromise()
                       .then((res: Response) => {
                         console.log(res.json());
@@ -45,7 +45,7 @@ export class DataService {
 
   getUserInfo(id: string): Promise<Object> {
     let options: RequestOptions = this.getHeader();
-    return this.http.get(this.localhost + `/api/v1/userInfo/${id}`, options)
+      return this.http.get(this.backEndHostUrl + `/api/v1/userInfo/${id}`, options)
                       .toPromise()
                       .then((res: Response) => res.json())
                       .catch(this.handleError);
@@ -55,7 +55,7 @@ export class DataService {
   followUser(id: string): Promise<Object> {
     let post = {};
     let options: RequestOptions = this.getHeader();
-    return this.http.post(this.localhost + `/api/v1/follow/${id}`, post, options)
+      return this.http.post(this.backEndHostUrl + `/api/v1/follow/${id}`, post, options)
       .toPromise()
       .catch(this.handleError);
   }
@@ -63,14 +63,14 @@ export class DataService {
   unfollowUser(id: string): Promise<Object> {
     let post = {};
     let options: RequestOptions = this.getHeader();
-    return this.http.post(this.localhost + `/api/v1/unfollow/${id}`, post, options)
+      return this.http.post(this.backEndHostUrl + `/api/v1/unfollow/${id}`, post, options)
       .toPromise()
       .catch(this.handleError);
   }
 
   showFollower(id: string): Promise<object> {
     let options: RequestOptions = this.getHeader();
-    return this.http.get(this.localhost + `/api/v1/showFollower/${id}`, options)
+      return this.http.get(this.backEndHostUrl + `/api/v1/showFollower/${id}`, options)
                       .toPromise()
                       .then((res: Response) => res.json())
                       .catch(this.handleError);
@@ -78,7 +78,7 @@ export class DataService {
 
   showFollowing(id: string): Promise<object> {
     let options: RequestOptions = this.getHeader();
-    return this.http.get(this.localhost + `/api/v1/showFollowing/${id}`, options)
+      return this.http.get(this.backEndHostUrl + `/api/v1/showFollowing/${id}`, options)
                       .toPromise()
                       .then((res: Response) => res.json())
                       .catch(this.handleError);
@@ -89,7 +89,7 @@ export class DataService {
     let options: RequestOptions = this.getHeader();
     let message: object = {message: content};
     //console.log(message);
-    return this.http.post(this.localhost + `/api/v1/newTweet`, message, options)
+      return this.http.post(this.backEndHostUrl + `/api/v1/newTweet`, message, options)
             .toPromise()
             .then((res: Response) => {
               this.getTweetListTimeLine(id, 1);
@@ -102,7 +102,7 @@ export class DataService {
   //Delete Tweet
   deleteTweet(tweetId: string): Promise<Object> {
     let options: RequestOptions = this.getHeader();
-    return this.http.delete(this.localhost + '/api/v1/deleteTweet/' + tweetId, options)
+      return this.http.delete(this.backEndHostUrl + '/api/v1/deleteTweet/' + tweetId, options)
             .toPromise()
             .then((res: Response) => {
               return res.json();
@@ -113,7 +113,7 @@ export class DataService {
   // ReTweet
   retweet(id: string, data: object): Promise<Object> {
     let options: RequestOptions = this.getHeader();
-    return this.http.post(this.localhost + '/api/v1/reTweet', data, options)
+      return this.http.post(this.backEndHostUrl + '/api/v1/reTweet', data, options)
             .toPromise()
             .then((res) => {
               this.getTweetListTimeLine(id, 1);
@@ -152,7 +152,7 @@ export class DataService {
   updateUserInfo(userNewInfo): Promise<Object>{
     let options: RequestOptions = this.getHeader();
     // console.log(`${this.authUrl}/signup`, signUpUserInfo, options);
-    return this.http.post(`${this.backEndHostUrl}/updateUserInfo`,userNewInfo, options)
+    return this.http.post(`${this.backEndHostUrl}/api/v1/updateUserInfo`,userNewInfo, options)
       .toPromise()
       .then((res: Response) => {
         localStorage.setItem('user_info_object', JSON.stringify(res.json()));
@@ -168,7 +168,7 @@ export class DataService {
   addNewComment(commentContent, tweetid){
     let options: RequestOptions = this.getHeader();
     let message: object ={ "message":commentContent};
-    return this.http.post(`${this.backEndHostUrl}/newcomment/${tweetid}`, message, options)
+    return this.http.post(`${this.backEndHostUrl}/api/v1/newcomment/${tweetid}`, message, options)
     .toPromise()
     .then((res: Response) => {
       console.log("back end response: successfully");
@@ -185,7 +185,7 @@ export class DataService {
    */
   fetchComment(tweetid:string): Observable<object>{
     let options: RequestOptions = this.getHeader();
-    return this.http.get(`${this.backEndHostUrl}/fetchcomment/${tweetid}`, options)
+    return this.http.get(`${this.backEndHostUrl}/api/v1/fetchcomment/${tweetid}`, options)
       .map(res => res.json())
       .do(res => {
          console.log(res);
@@ -200,7 +200,7 @@ export class DataService {
    */
   getUserInfoForProfile(username: string): Observable<object>{
     let options: RequestOptions = this.getHeader();
-    return this.http.get(`${this.backEndHostUrl}/userInfo/${username}`, options)
+    return this.http.get(`${this.backEndHostUrl}/api/v1/userInfo/${username}`, options)
       .map(res => res.json())
       .do(res => {
          console.log(res);

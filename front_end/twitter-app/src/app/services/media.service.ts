@@ -7,7 +7,8 @@ import { User } from '../components/userprofile/user';
 
 @Injectable()
 export class MediaService {
-  private backEndHostUrl: String = "http://127.0.0.1:1323/api/v1";
+    private backEndHostUrl: String = "http://ec2-18-217-141-58.us-east-2.compute.amazonaws.com:1323/api/v1";
+  //private backEndHostUrl: String = "http://127.0.0.1:1323/api/v1";
 
   constructor(private _http: Http) {  }
 

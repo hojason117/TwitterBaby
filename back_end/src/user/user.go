@@ -1,23 +1,24 @@
 package user
 
 import (
+	"model"
+	"net/http"
 	"strings"
 	"time"
-	"net/http"
-	"gopkg.in/mgo.v2"
+
 	"github.com/dgrijalva/jwt-go"
-	"gopkg.in/mgo.v2/bson"
 	"github.com/labstack/echo"
-	"model"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type (
 	// Handler : Handler for user related requests.
 	Handler struct {
-		db 				*mgo.Session
-		dbName 			string
-		key				string
-		notifOperator	chan model.Notification
+		db            *mgo.Session
+		dbName        string
+		key           string
+		notifOperator chan model.Notification
 	}
 )
 
@@ -64,11 +65,25 @@ func (h *Handler) Signup(c echo.Context) (err error) {
 	}
 
 	// Save user
-	err = db.DB(h.dbName).C(model.UserCollection).Insert(u);
+	err = db.DB(h.dbName).C(model.UserCollection).Insert(u)
 	if err != nil {
 		return
 	}
 	err = db.DB(h.dbName).C(model.NotificationCollection).Insert(model.Individual{ID: bson.NewObjectId(), Username: u.Username, Notifications: make([]model.Notification, 0)})
+	if err != nil {
+		return
+	}
+
+	// Add self to TwitterBaby Official's follower list
+	err = db.DB(h.dbName).C(model.UserCollection).Update(bson.M{"username": "TwitterBaby Official"}, bson.M{"$addToSet": bson.M{"followers": u.Username}})
+	if err != nil {
+		if err == mgo.ErrNotFound {
+			return &echo.HTTPError{Code: http.StatusNotFound, Message: "User does not exist."}
+		}
+		return
+	}
+	// Add TwitterBaby Official to self following list
+	err = db.DB(h.dbName).C(model.UserCollection).Update(bson.M{"username": u.Username}, bson.M{"$addToSet": bson.M{"following": "TwitterBaby Official"}})
 	if err != nil {
 		return
 	}
@@ -131,7 +146,7 @@ func (h *Handler) Login(c echo.Context) (err error) {
 //				   Method: GET
 //				   Return 200 OK on success.
 //				   Return 404 Not Found if the user is not in the database.
-func (h *Handler) FetchUserInfo (c echo.Context) (err error) {
+func (h *Handler) FetchUserInfo(c echo.Context) (err error) {
 	selfUsername := usernameFromToken(c)
 
 	db := h.db.Clone()
@@ -151,10 +166,10 @@ func (h *Handler) FetchUserInfo (c echo.Context) (err error) {
 	user.Password = ""
 
 	var container struct {
-		U				model.User	`json:"userinfo"`
-		FollowerCount	int			`json:"followercount"`
-		FollowingCount	int			`json:"followingcount"`
-		Followed		bool		`json:"followed"`
+		U              model.User `json:"userinfo"`
+		FollowerCount  int        `json:"followercount"`
+		FollowingCount int        `json:"followingcount"`
+		Followed       bool       `json:"followed"`
 	}
 	container.U = user
 	container.FollowerCount = len(user.Followers)
@@ -200,7 +215,7 @@ func (h *Handler) Follow(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	
+
 	user := model.User{}
 	err = db.DB(h.dbName).C(model.UserCollection).Find(bson.M{"username": username}).One(&user)
 
@@ -235,7 +250,7 @@ func (h *Handler) Unfollow(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	
+
 	user := model.User{}
 	err = db.DB(h.dbName).C(model.UserCollection).Find(bson.M{"username": username}).One(&user)
 
@@ -264,10 +279,10 @@ func (h *Handler) ShowFollower(c echo.Context) (err error) {
 	}
 
 	type followerData struct {
-		Username	string			`json:"username" bson:"username"`
-		FirstName	string			`json:"firstname" bson:"firstname"`
-		LastName	string			`json:"lastname,omitempty" bson:"lastname,omitempty"`
-		Bio			string			`json:"bio,omitempty" bson:"bio,omitempty"`
+		Username  string `json:"username" bson:"username"`
+		FirstName string `json:"firstname" bson:"firstname"`
+		LastName  string `json:"lastname,omitempty" bson:"lastname,omitempty"`
+		Bio       string `json:"bio,omitempty" bson:"bio,omitempty"`
 	}
 	container := []followerData{}
 
@@ -290,7 +305,7 @@ func (h *Handler) ShowFollower(c echo.Context) (err error) {
 //				   Return 404 Not Found if the user is not in the database.
 func (h *Handler) ShowFollowing(c echo.Context) (err error) {
 	username := c.Param("username")
-	
+
 	db := h.db.Clone()
 	defer db.Close()
 
@@ -305,10 +320,10 @@ func (h *Handler) ShowFollowing(c echo.Context) (err error) {
 	}
 
 	type followingData struct {
-		Username	string			`json:"username" bson:"username"`
-		FirstName	string			`json:"firstname" bson:"firstname"`
-		LastName	string			`json:"lastname,omitempty" bson:"lastname,omitempty"`
-		Bio			string			`json:"bio,omitempty" bson:"bio,omitempty"`
+		Username  string `json:"username" bson:"username"`
+		FirstName string `json:"firstname" bson:"firstname"`
+		LastName  string `json:"lastname,omitempty" bson:"lastname,omitempty"`
+		Bio       string `json:"bio,omitempty" bson:"bio,omitempty"`
 	}
 	container := []followingData{}
 
@@ -338,10 +353,10 @@ func (h *Handler) UpdateUserInfo(c echo.Context) (err error) {
 	defer db.Close()
 
 	type userUpdate struct {
-		FirstName 	string	`json:"firstname"`
-		LastName	string	`json:"lastname"`
-		Bio			string	`json:"bio"`
-		Tag			string	`json:"tag"`
+		FirstName string `json:"firstname"`
+		LastName  string `json:"lastname"`
+		Bio       string `json:"bio"`
+		Tag       string `json:"tag"`
 	}
 
 	update := &userUpdate{}
@@ -369,7 +384,7 @@ func (h *Handler) UpdateUserInfo(c echo.Context) (err error) {
 
 	// Don't send password
 	user.Password = ""
-	
+
 	//return c.JSON(http.StatusOK, user)
 	return c.JSON(http.StatusOK, user)
 }
@@ -383,14 +398,14 @@ func (h *Handler) UpdateUserInfo(c echo.Context) (err error) {
 //						  Return 404 Not Found if the user is not in the database.
 func (h *Handler) UpdateProfilePicture(c echo.Context) (err error) {
 	username := usernameFromToken(c)
-	
+
 	db := h.db.Clone()
 	defer db.Close()
 
 	type base64Image struct {
-		Base64String	string	`json:"picture"`
+		Base64String string `json:"picture"`
 	}
-	
+
 	image := base64Image{}
 	if err = c.Bind(&image); err != nil {
 		return
@@ -400,7 +415,7 @@ func (h *Handler) UpdateProfilePicture(c echo.Context) (err error) {
 	if len(image.Base64String) > 10485760 {
 		return &echo.HTTPError{Code: http.StatusBadRequest, Message: "Image must be smaller than 10 MB."}
 	}
-	
+
 	err = db.DB(h.dbName).C(model.UserCollection).Update(bson.M{"username": username}, bson.M{"$set": bson.M{"picture": &image.Base64String}})
 	if err != nil {
 		if err == mgo.ErrNotFound {
@@ -419,7 +434,7 @@ func (h *Handler) UpdateProfilePicture(c echo.Context) (err error) {
 
 	// Don't send password
 	user.Password = ""
-	
+
 	//return c.JSON(http.StatusOK, user)
 	return c.JSON(http.StatusCreated, user)
 }

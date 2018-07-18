@@ -21,7 +21,7 @@ describe('twitter-app Friendship', () => {
     page.navigateToHome();
     page.sleep();
     let following = page.getUserFollowing();
-    expect(following.getText()).toEqual('Following: 1');
+    expect(following.getText()).toEqual('Following: 2');
     following.click();
     page.sleep();
     expect(page.getFriendCol()).toBeTruthy();
