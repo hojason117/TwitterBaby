@@ -1,10 +1,11 @@
 package server
 
 import (
-	"handler"
-	"fmt"
-	"time"
 	"context"
+	"fmt"
+	"handler"
+	"time"
+
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
@@ -26,13 +27,13 @@ func NewServer(h *handler.Handler) (e *echo.Echo) {
 			return false
 		},
 	}))
-	
+
 	// CORS config
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:4200"},
-		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},
-		AllowCredentials: true, 
-		AllowHeaders: []string{echo.HeaderAuthorization, echo.HeaderContentType}, 
+		AllowOrigins:     []string{"http://twitterbaby.s3-website.us-east-2.amazonaws.com", "http://localhost:4200"},
+		AllowMethods:     []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},
+		AllowCredentials: true,
+		AllowHeaders:     []string{echo.HeaderAuthorization, echo.HeaderContentType},
 	}))
 
 	// Routes
@@ -54,13 +55,13 @@ func NewServer(h *handler.Handler) (e *echo.Echo) {
 	e.GET("/api/v1/fetchcomment/:tweet", h.CommentHandler.FetchComment)
 	e.POST("/api/v1/reTweet", h.TweetHandler.ReTweet)
 
-	return e;
+	return e
 }
 
 // TerminalControl : Thread for terminal control
 func TerminalControl(e *echo.Echo, h *handler.Handler, srvAddr string) {
 	var op string
-	
+
 	for {
 		fmt.Println("Listening on " + srvAddr)
 		fmt.Print("Option('h' for help): ")

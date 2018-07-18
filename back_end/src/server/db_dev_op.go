@@ -19,17 +19,19 @@ func dbReinsert() {
 	userC := h.DB.DB(h.DBName).C(model.UserCollection)
 
 	users := []model.User{
-		model.User{ID: bson.NewObjectId(), Username: "JasonHo", FirstName: "Jason", LastName: "Ho", Password: "test1", Email: "hojason117@gmail.com", Followers: []string{"MarsLee", "TomRiddle"}, Following: []string{"MarsLee"},
+		model.User{ID: bson.NewObjectId(), Username: "JasonHo", FirstName: "Jason", LastName: "Ho", Password: "test1", Email: "hojason117@gmail.com", Followers: []string{"MarsLee", "TomRiddle"}, Following: []string{"MarsLee", "TwitterBaby Official"},
 			Bio: "Hi everyone, this is Jason Ho.", Tag: "Albert Einstein"},
-		model.User{ID: bson.NewObjectId(), Username: "MarsLee", FirstName: "Chih-Yin", LastName: "Lee", Password: "test2", Email: "c788678867886@gmail.com", Followers: []string{"JasonHo"}, Following: []string{"JasonHo"},
+		model.User{ID: bson.NewObjectId(), Username: "MarsLee", FirstName: "Chih-Yin", LastName: "Lee", Password: "test2", Email: "c788678867886@gmail.com", Followers: []string{"JasonHo"}, Following: []string{"JasonHo", "TwitterBaby Official"},
 			Bio: "Hi everyone, this is Mars Lee.", Tag: "Bruno Mars"},
-		model.User{ID: bson.NewObjectId(), Username: "JasonHe", FirstName: "Jason", LastName: "He", Password: "test3", Email: "hexing_h@hotmail.com", Followers: []string{}, Following: []string{},
+		model.User{ID: bson.NewObjectId(), Username: "JasonHe", FirstName: "Jason", LastName: "He", Password: "test3", Email: "hexing_h@hotmail.com", Followers: []string{}, Following: []string{"TwitterBaby Official"},
 			Bio: "Hi everyone, this is Jason He.", Tag: "Jason hehehehe"},
-		model.User{ID: bson.NewObjectId(), Username: "DianeLin", FirstName: "Diane", LastName: "Lin", Password: "test4", Email: "diane@gmail.com", Followers: []string{}, Following: []string{},
+		model.User{ID: bson.NewObjectId(), Username: "DianeLin", FirstName: "Diane", LastName: "Lin", Password: "test4", Email: "diane@gmail.com", Followers: []string{}, Following: []string{"TwitterBaby Official"},
 			Bio: "Hi everyone, this is Diane Lin.", Tag: "Diane Kruger"},
-		model.User{ID: bson.NewObjectId(), Username: "TomRiddle", FirstName: "Tom", LastName: "Riddle", Password: "test5", Email: "triddle@gmail.com", Followers: []string{}, Following: []string{"JasonHo"},
+		model.User{ID: bson.NewObjectId(), Username: "TomRiddle", FirstName: "Tom", LastName: "Riddle", Password: "test5", Email: "triddle@gmail.com", Followers: []string{}, Following: []string{"JasonHo", "TwitterBaby Official"},
 			Bio: "Hi everyone, this is Lord Voldemort.", Tag: "Voldemort"},
-		model.User{ID: bson.NewObjectId(), Username: "JS", FirstName: "Jon", Password: "pass", Email: "json@gmail.com", Followers: []string{}, Following: []string{}},
+		model.User{ID: bson.NewObjectId(), Username: "JS", FirstName: "Jon", Password: "pass", Email: "json@gmail.com", Followers: []string{}, Following: []string{"TwitterBaby Official"}},
+		model.User{ID: bson.NewObjectId(), Username: "TwitterBaby Official", FirstName: "Twitter", LastName: "Baby", Password: "test", Email: "test@gmail.com", Followers: []string{"JasonHo", "MarsLee", "JasonHe", "DianeLin", "TomRiddle", "JS"},
+			Following: []string{}, Bio: "Hi everyone, welcome to TwitterBaby!", Tag: "TwitterBaby"},
 	}
 
 	for _, u := range users {
@@ -49,6 +51,7 @@ func dbReinsert() {
 		model.Individual{ID: bson.NewObjectId(), Username: "DianeLin", Notifications: make([]model.Notification, 0)},
 		model.Individual{ID: bson.NewObjectId(), Username: "TomRiddle", Notifications: make([]model.Notification, 0)},
 		model.Individual{ID: bson.NewObjectId(), Username: "JS", Notifications: make([]model.Notification, 0)},
+		model.Individual{ID: bson.NewObjectId(), Username: "TwitterBaby Official", Notifications: make([]model.Notification, 0)},
 	}
 
 	for _, c := range notifications {
@@ -61,6 +64,9 @@ func dbReinsert() {
 	tweetC := h.DB.DB(h.DBName).C(model.TweetCollection)
 
 	tweets := []model.Tweet{
+		model.Tweet{ID: bson.NewObjectId(), Owner: "TwitterBaby Official", Message: "Hi there, welcome to TwitterBaby!", Timestamp: time.Now()},
+		model.Tweet{ID: bson.NewObjectId(), Owner: "TwitterBaby Official", Message: "In TwitterBaby, you can search for friends, tweet, retweet, comment, etc.", Timestamp: time.Now()},
+		model.Tweet{ID: bson.NewObjectId(), Owner: "TwitterBaby Official", Message: "Please, do enjoy your stay, and we hope you have great time here!", Timestamp: time.Now()},
 		model.Tweet{ID: bson.NewObjectId(), Owner: "JasonHo", Message: "Hi, I am Jason Ho. Weather sucks.", Timestamp: time.Now()},
 		model.Tweet{ID: bson.NewObjectId(), Owner: "JasonHo", Message: "Hello from Jason Ho.", Timestamp: time.Now()},
 		model.Tweet{ID: bson.NewObjectId(), Owner: "JasonHo", Message: "Hello world!", Timestamp: time.Now()},

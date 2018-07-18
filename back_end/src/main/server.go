@@ -1,14 +1,15 @@
 package main
 
 import (
-	"server"
 	"handler"
+	"server"
 )
 
 func main() {
 	// Instantiate server
 	dbURL := "mongodb://hojason117:cen5035se@ds139921.mlab.com:39921/twitterbaby"
-	srvAddr := "localhost:1323"
+	srvAddr := "ec2-18-217-141-58.us-east-2.compute.amazonaws.com:1323"
+	//srvAddr := "localhost:1323"
 	h := handler.NewHandler(dbURL)
 	e := server.NewServer(h)
 
