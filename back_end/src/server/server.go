@@ -30,7 +30,7 @@ func NewServer(h *handler.Handler) (e *echo.Echo) {
 
 	// CORS config
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"http://twitterbaby.s3-website.us-east-2.amazonaws.com", "http://localhost:4200"},
+		AllowOrigins:     []string{"http://twitterbaby.s3-website.us-east-2.amazonaws.com", "http://twitterbaby.hojason117.com", "http://localhost:4200"},
 		AllowMethods:     []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},
 		AllowCredentials: true,
 		AllowHeaders:     []string{echo.HeaderAuthorization, echo.HeaderContentType},
