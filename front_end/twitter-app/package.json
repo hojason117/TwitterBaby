@@ -11,8 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "compodoc": "./node_modules/.bin/compodoc -p tsconfig.json --theme 'vagrant' -s",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "ngh": "angular-cli-ghpages"
   },
   "private": true,
   "dependencies": {

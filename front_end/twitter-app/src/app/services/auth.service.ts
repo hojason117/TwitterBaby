@@ -12,7 +12,7 @@ import { Tweet } from '../models/tweet.model';
 
 @Injectable()
 export class AuthService{
-    private authUrl: String = "http://ec2-18-217-141-58.us-east-2.compute.amazonaws.com:1323/api/v1";
+    private authUrl: String = "http://ec2-18-219-112-104.us-east-2.compute.amazonaws.com:1324/api/v1";
     //private authUrl: String = "http://127.0.0.1:1323/api/v1";
     private loggedIn: boolean = false;
     localhost = "http://localhost:1323";

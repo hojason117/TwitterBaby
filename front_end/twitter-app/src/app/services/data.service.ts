@@ -9,7 +9,7 @@ import 'rxjs/add/operator/toPromise';
 export class DataService {
   localhost = "http://localhost:1323";
   private timelineSource = new BehaviorSubject<object>([]);
-  private backEndHostUrl: String = "http://ec2-18-217-141-58.us-east-2.compute.amazonaws.com:1323";
+  private backEndHostUrl: String = "http://ec2-18-219-112-104.us-east-2.compute.amazonaws.com:1324";
   constructor(private http: Http) { }
 
   // Create the header for http request
