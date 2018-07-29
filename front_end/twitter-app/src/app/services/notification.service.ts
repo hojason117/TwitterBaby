@@ -11,7 +11,7 @@ export class NotificationService {
 
   public connect(id: string) {
     if (!this.connected) {
-        this.socket = new WebSocket("ws://ec2-18-217-141-58.us-east-2.compute.amazonaws.com:1323/api/v1/ws/" + id);
+        this.socket = new WebSocket("ws://ec2-18-219-112-104.us-east-2.compute.amazonaws.com:1324/api/v1/ws/" + id);
       //this.socket = new WebSocket("ws://localhost:1323/api/v1/ws/" + id);
       this.connected = true;
       this.socket.onopen = event => {
