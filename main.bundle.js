@@ -2371,7 +2371,7 @@ var DataService = (function () {
         this.http = http;
         this.localhost = "http://localhost:1323";
         this.timelineSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["BehaviorSubject"]([]);
-        this.backEndHostUrl = "http://ec2-18-217-141-58.us-east-2.compute.amazonaws.com:1323";
+        this.backEndHostUrl = "http://ec2-18-219-112-104.us-east-2.compute.amazonaws.com:1324";
     }
     // Create the header for http request
     DataService.prototype.getHeader = function () {
@@ -2594,7 +2594,7 @@ var MediaService = (function () {
     //private backEndHostUrl: String = "http://127.0.0.1:1323/api/v1";
     function MediaService(_http) {
         this._http = _http;
-        this.backEndHostUrl = "http://ec2-18-217-141-58.us-east-2.compute.amazonaws.com:1323/api/v1";
+        this.backEndHostUrl = "http://ec2-18-219-112-104.us-east-2.compute.amazonaws.com:1324/api/v1";
     }
     // data = {
     //   size: '125422',
@@ -2665,7 +2665,7 @@ var NotificationService = (function () {
     NotificationService.prototype.connect = function (id) {
         var _this = this;
         if (!this.connected) {
-            this.socket = new WebSocket("ws://ec2-18-217-141-58.us-east-2.compute.amazonaws.com:1323/api/v1/ws/" + id);
+            this.socket = new WebSocket("ws://ec2-18-219-112-104.us-east-2.compute.amazonaws.com:1324/api/v1/ws/" + id);
             //this.socket = new WebSocket("ws://localhost:1323/api/v1/ws/" + id);
             this.connected = true;
             this.socket.onopen = function (event) {
