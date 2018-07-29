@@ -2260,7 +2260,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var AuthService = (function () {
     function AuthService(http) {
         this.http = http;
-        this.authUrl = "http://ec2-18-217-141-58.us-east-2.compute.amazonaws.com:1323/api/v1";
+        this.authUrl = "http://ec2-18-219-112-104.us-east-2.compute.amazonaws.com:1324/api/v1";
         //private authUrl: String = "http://127.0.0.1:1323/api/v1";
         this.loggedIn = false;
         this.localhost = "http://localhost:1323";
